@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {CarForm} from "./components/CarForm/CarForm";
-import {Cars} from "./components/Cars/Cars";
+
+import {Cars, CarForm} from "./components";
 import {carServices} from "./services/CarServices";
 
 const App = () => {
@@ -12,7 +12,7 @@ const App = () => {
 
     return (
         <div>
-            <CarForm setCars={setCars} updates={updates}/>
+            <CarForm setCars={setCars} updates={updates} setUpdates={setUpdates}/>
             <hr/>
             <Cars cars={cars} setUpdates={setUpdates}/>
         </div>

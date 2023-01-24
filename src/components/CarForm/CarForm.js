@@ -5,7 +5,7 @@ import {joiResolver} from "@hookform/resolvers/joi";
 import {CarValidator} from "../../validators/CarValidator";
 import {carServices} from "../../services/CarServices";
 
-const CarForm = ({setCars, updates}) => {
+const CarForm = ({setCars, updates,setUpdates}) => {
     const {register, handleSubmit, reset, formState: {errors, isValid}, setValue} = useForm({
         mode: 'all', resolver: joiResolver(CarValidator)
     })
@@ -19,18 +19,20 @@ const CarForm = ({setCars, updates}) => {
     }, [updates, setValue])
 
     const submit = async (car) => {
-        const {data} = await carServices.create(car);
-        setCars(prev => [...prev, data]);
-        // console.log(data);
-        reset();
         if(updates){
             const {data} = await carServices.update(updates.id, car);
+            reset();
             console.log(data);
+            setUpdates(null);
+        }
+        else {
+            const {data} = await carServices.create(car);
+            setCars(prev => [...prev, data]);
+            // console.log(data);
+            reset();
         }
     };
-    const update = async ()=>{
 
-    }
 
     return (<form onSubmit={handleSubmit(submit)}>
         <input type="text" placeholder={'brand'} {...register('brand')}/>
@@ -39,7 +41,7 @@ const CarForm = ({setCars, updates}) => {
         {errors.year && <span>{errors.year.message}</span>}
         <input type="text" placeholder={'price'} {...register('price')}/>
         {errors.price && <span>{errors.price.message}</span>}
-        <button disabled={!isValid} onClick={update}>{updates ? 'Update' : 'Submit'}</button>
+        <button disabled={!isValid}>{updates ? 'Update' : 'Submit'}</button>
         {/*<button disabled={!updates || !isValid} onClick={update}>Update</button>*/}
     </form>);
 };
