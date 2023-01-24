@@ -6,6 +6,7 @@
 .pnp.js
 .idea
 package.json
+yarn.lock
 # testing
 /coverage
 
