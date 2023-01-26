@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 
 import {requests} from "../../services/requests";
-import css from './Todos.module.css'
+import css from './Todos.module.css';
+
 const Todos = () => {
     let [todos, setTodos] = useState([]);
     useEffect(() => {
