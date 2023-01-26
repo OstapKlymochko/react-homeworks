@@ -19,6 +19,29 @@
     font-size: 1.5em;
 }
 
+a{
+    height: 100%;
+    border-radius: 10px;
+    transition: .5s font-size;
+    text-align: center;
+}
+
+a:hover{
+    font-size: 1.8em;
+}
 .Header > a[class='active'] {
     color: red;
+    border: 1px solid red;
+}
+
+@media screen and (max-width: 1000px){
+    .Header{
+        background: coral;
+    }
+    .Header > a{
+        font-size: 1em;
+    }
+    a:hover{
+        font-size: 1.5em;
+    }
 }
