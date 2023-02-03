@@ -1,0 +1,18 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: silver;
+    height: 5vh;
+    width: 90%;
+    margin: 0 5%;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 0 20%;
+}
+a{
+    color: white;
+}
+a [class='active']{
+    color: red;
+}
