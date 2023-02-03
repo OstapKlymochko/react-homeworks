@@ -1,14 +1,15 @@
 import React, {useContext} from 'react';
 import {PetContext} from "../../context/PetProvider";
-import {Cat} from "../Cat/Cat";
+import {Dog} from "../Dog/Dog";
 
-const Cats = () => {
+const Dogs = () => {
+
     const {state} = useContext(PetContext);
     return (
         <div>
-            {state.cats.map(val => <Cat key={val.catId} cat={val}/>)}
+            {state.dogs.map(val => <Dog key={val.dogId} dog={val}/>)}
         </div>
     );
 };
 
-export {Cats};
+export {Dogs};
