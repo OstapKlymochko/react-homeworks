@@ -10,7 +10,7 @@ const Users = () => {
     const [state, dispatch] = userReducer;
 
     useEffect(() => {
-        const getUsers = async () => {
+        const getUsers = () => {
              usersServices.getAll().then(({data}) => dispatch(userActions.GET_ALL(data)));
         }
         getUsers();
