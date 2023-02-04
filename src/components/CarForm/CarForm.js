@@ -5,36 +5,46 @@ import {joiResolver} from "@hookform/resolvers/joi";
 import {CarValidator} from "../../validators/CarValidator";
 import {carServices} from "../../services/CarServices";
 
-const CarForm = ({setCars, updates,setUpdates}) => {
+const CarForm = ({setCars, updates, setUpdates}) => {
     const {register, handleSubmit, reset, formState: {errors, isValid}, setValue} = useForm({
         mode: 'all', resolver: joiResolver(CarValidator)
     })
 
+
+    const submit = async (car) => {
+        const {data} = await carServices.create(car);
+        if (Object.keys(data).length) {
+            const {data} = await carServices.getAll();
+            setCars([...data]);
+        }
+        reset()
+    };
+
     useEffect(() => {
         if (updates) {
             setValue('brand', updates.brand);
-            setValue('year', updates.year);
             setValue('price', updates.price);
+            setValue('year', updates.year);
         }
-    }, [updates, setValue])
+    }, [updates, setValue]);
 
-    const submit = async (car) => {
-        if(updates){
+    const update = async (car) => {
+        try{
             const {data} = await carServices.update(updates.id, car);
-            reset();
-            console.log(data);
-            setUpdates(null);
+            if(Object.keys(data).length){
+                const {data} = await carServices.getAll();
+                setCars([...data]);
+            }
         }
-        else {
-            const {data} = await carServices.create(car);
-            setCars(prev => [...prev, data]);
-            // console.log(data);
-            reset();
+        catch (e){
+            console.warn(e);
         }
-    };
 
+        setUpdates(null);
+        reset();
+    }
 
-    return (<form onSubmit={handleSubmit(submit)}>
+    return (<form onSubmit={updates ? handleSubmit(update) : handleSubmit(submit)}>
         <input type="text" placeholder={'brand'} {...register('brand')}/>
         {errors.brand && <span>{errors.brand.message}</span>}
         <input type="text" placeholder={'year'} {...register('year')}/>

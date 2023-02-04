@@ -2,12 +2,9 @@ import React from 'react';
 
 import {carServices} from "../../services/CarServices";
 
-const Car = ({car,setUpdates}) => {
+const Car = ({car,setUpdates, setCars}) => {
     const {id,brand,year,price} = car;
-    const deleteCar = async ()=> {
-        const {data} = carServices.delete(id);
-        console.log(data);
-    }
+
     const update = ()=>{
         setUpdates(car);
         window.scrollTo({
@@ -15,6 +12,18 @@ const Car = ({car,setUpdates}) => {
             behavior:'smooth'
         })
     }
+
+    const deleteCar = async (id) => {
+        try{
+            await carServices.delete(id);
+        }
+        catch (e){
+            console.warn(e);
+        }
+        const {data} = await carServices.getAll();
+        setCars([...data]);
+    };
+
     return (
         <div>
             <h2>{id}. {brand}</h2>
