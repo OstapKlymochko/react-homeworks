@@ -9,7 +9,7 @@ const App = () => {
     useEffect(() => {
         carServices.getAll().then(({data}) => setCars([...data]));
     }, [cars])
-
+    console.log(cars);
     return (
         <div>
             <CarForm setCars={setCars} updates={updates} setUpdates={setUpdates}/>
