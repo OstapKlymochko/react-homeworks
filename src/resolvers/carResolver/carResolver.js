@@ -5,6 +5,6 @@ const carResolver = Joi.object({
         'string.pattern.base': 'Тільки букви від 1 до 20 символів'
     }),
     price: Joi.number().min(0).max(1000000).required().messages({
-        ''
+        // ''
     })
 })
