@@ -6,6 +6,7 @@ import './Header.css'
 const Header = () => {
     return (
         <div className={'Header'}>
+            <NavLink to={''}>Home</NavLink>
             <NavLink to={'posts'}>Posts</NavLink>
             <NavLink to={'users'}>Users</NavLink>
         </div>
