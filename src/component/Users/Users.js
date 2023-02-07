@@ -6,6 +6,7 @@ import {User} from "../User/User";
 const Users = () => {
     const {users, errors} = useSelector(state => state.users);
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(userActions.getAll())
     }, [dispatch]);

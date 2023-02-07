@@ -8,7 +8,7 @@ const initialState = {
     selectedUser: null
 }
 
-const getAll = createAsyncThunk('userSlice/getAll',
+const getAllUsers = createAsyncThunk('userSlice/getAllUsers',
     async (_, {rejectWithValue}) => {
         try {
             const {data} = await usersServices.getAll();
@@ -18,7 +18,7 @@ const getAll = createAsyncThunk('userSlice/getAll',
         }
     });
 
-const getById = createAsyncThunk('userSlice/getById',
+const getUserById = createAsyncThunk('userSlice/getById',
         async (id, {rejectWithValue}) => {
         try {
             // console.log(id);
@@ -26,7 +26,6 @@ const getById = createAsyncThunk('userSlice/getById',
             return data;
         } catch (e) {
             return rejectWithValue(e.response.data);
-            // console.log(e.response, typeof rejectWithValue);
         }
     });
 
@@ -34,33 +33,30 @@ const userSlice = createSlice({
     name: 'userSlice',
     initialState,
     reducers: {
-        // getAll: (state, action) => {
-        //     state.users = action.payload;
-        // },
         setSelectedUser: (state, action) => {
             state.selectedUser = action.payload;
         }
     },
     extraReducers: (val) => {
-        val.addCase(getAll.fulfilled, (state, action) => {
+        val.addCase(getAllUsers.fulfilled, (state, action) => {
             state.loading = false;
             state.users = action.payload;
         })
-            .addCase(getAll.pending, (state) => {
+            .addCase(getAllUsers.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(getAll.rejected, (state, action) => {
+            .addCase(getAllUsers.rejected, (state, action) => {
                 state.loading = false;
                 state.errors = action.payload;
             })
-            .addCase(getById.fulfilled, (state, action) => {
+            .addCase(getUserById.fulfilled, (state, action) => {
                 state.loading = false;
                 state.selectedUser = action.payload;
             })
-            .addCase(getById.pending, (state) => {
+            .addCase(getUserById.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(getById.rejected, (state, action) => {
+            .addCase(getUserById.rejected, (state, action) => {
                 state.loading = false;
                 state.errors = action.payload;
             })
@@ -70,8 +66,8 @@ const userSlice = createSlice({
 const {reducer: userReducer, actions: {setSelectedUser}} = userSlice;
 
 const userActions = {
-    getAll,
-    getById,
+    getAll: getAllUsers,
+    getById: getUserById,
     setSelectedUser
 };
 
