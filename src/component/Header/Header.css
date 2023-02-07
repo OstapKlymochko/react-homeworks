@@ -1,0 +1,14 @@
+.Header{
+    display: flex;
+    justify-content: space-between;
+    background: silver;
+    height: 5vh;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 0 50px;
+    width: 90%;
+    margin: 0 5%;
+}
+.Header a{
+    font-size: 1.5em;
+}
