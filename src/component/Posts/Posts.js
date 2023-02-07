@@ -4,16 +4,16 @@ import {postActions} from "../../redux/slices";
 import {Post} from "../Post/Post";
 
 const Posts = () => {
-    const {posts} = useSelector(state => state.posts);
+    const {posts, selectedPost} = useSelector(state => state.posts);
     const dispatch = useDispatch();
     // debugger;
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(postActions.getAllPosts());
-    },[dispatch]);
+    }, [dispatch]);
     console.log(posts);
     return (
         <div>
-            <h1>Posts</h1>
+            {selectedPost && <h1>{selectedPost.id} Post's data:<br/>{selectedPost.body}</h1>}
             {posts.map(post => <Post key={post.id} post={post}/>)}
         </div>
     );
