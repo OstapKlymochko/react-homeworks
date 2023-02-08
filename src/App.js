@@ -1,11 +1,14 @@
 import React from 'react';
-import {Cars} from "./components";
+
+import {CarForm, Cars} from "./components";
 
 const App = () => {
     return (
-        <div>
+        <>
+            <CarForm/>
+            <hr/>
             <Cars/>
-        </div>
+        </>
     );
 };
 

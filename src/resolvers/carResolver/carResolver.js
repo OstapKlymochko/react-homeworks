@@ -5,6 +5,15 @@ const carResolver = Joi.object({
         'string.pattern.base': 'Тільки букви від 1 до 20 символів'
     }),
     price: Joi.number().min(0).max(1000000).required().messages({
-        // ''
+        'number.min' : 'Число більше 0',
+        'number.max': 'Число менше за 1000000'
+    }),
+    year: Joi.number().min(1990).max(new Date().getFullYear()).required().messages({
+        'number.min': '1990 і молодші',
+        'number.max': `${new Date().getFullYear()} і старші`
     })
 })
+
+export {
+    carResolver
+}

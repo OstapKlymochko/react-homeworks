@@ -1,0 +1,20 @@
+.cars {
+    background: silver;
+    box-sizing: border-box;
+    border-radius: 50px;
+    width: 80%;
+    margin: 150px 10% 0;
+    padding: 50px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.car {
+    width: 15%;
+    margin: 0 10% 40px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: cornflowerblue;
+    text-align: center;
+}
