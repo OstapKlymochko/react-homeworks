@@ -16,28 +16,20 @@ const CarForm = () => {
 
     useEffect(() => {
         if (carUpdate) {
-            setValue('brand', carUpdate.brand);
-            setValue('year', carUpdate.year);
-            setValue('price', carUpdate.price);
+            setValue('brand', carUpdate.brand, {shouldValidate: true});
+            setValue('year', carUpdate.year, {shouldValidate: true});
+            setValue('price', carUpdate.price, {shouldValidate: true});
         }
     }, [carUpdate, setValue]);
 
-    const submit = (car) => {
+    const submit = async (car) => {
         dispatch(carActions.create(car));
-        setTimeout(()=>{
-            dispatch(carActions.getAll());
-        },100);
         reset();
     };
 
-    const update = (newCar) => {
-        dispatch(carActions.update({id:carUpdate.id,updates: newCar}));
-        setTimeout(()=>{
-            dispatch(carActions.getAll());
-            reset();
-            dispatch(carActions.setCarUpdates(null));
-        },100);
-
+    const update = async (newCar) => {
+        dispatch(carActions.update({id: carUpdate.id, updates: newCar}));
+        dispatch(carActions.setCarUpdates(null));
     };
 
     return (

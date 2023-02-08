@@ -8,36 +8,38 @@ const initialState = {
     loading: null,
     carUpdate: null
 }
+
 const getAll = createAsyncThunk('carSlice/getAll',
-    async (_, {rejectWithValue}) => {
+    async (_, thunkAPI) => {
         try {
-            console.log('Fetching data');
+            // console.log('Fetching data');
             const {data} = await carsService.getAll();
             return data;
         } catch (e) {
-            return rejectWithValue(e.response.data);
+            return thunkAPI.rejectWithValue(e.response.data);
         }
     })
 
 const create = createAsyncThunk('carSlice/create',
-    async (newCar, {rejectWithValue}) => {
+    async (newCar, thunkAPI) => {
         try {
             const {data} = await carsService.create(newCar);
             // console.log(newCar);
+            thunkAPI.dispatch(getAll());
             return data;
         } catch (e) {
-            return rejectWithValue(e.response.data);
+            return thunkAPI.rejectWithValue(e.response.data);
         }
     });
 
 const update = createAsyncThunk('carSlice/update',
-    async ({id, updates}, {rejectWithValue}) => {
-
+    async ({id, updates}, thunkAPI) => {
         try {
             const {data} = await carsService.update(id, updates);
             console.log(data);
+            thunkAPI.dispatch(getAll());
         } catch (e) {
-            return rejectWithValue(e.response.data);
+            return thunkAPI.rejectWithValue(e.response.data);
         }
 
     })
