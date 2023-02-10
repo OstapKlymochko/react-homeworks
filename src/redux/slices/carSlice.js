@@ -4,16 +4,17 @@ import {carsService} from "../../services";
 
 const initialState = {
     cars: [],
+    prev: null,
+    next: null,
     errors: null,
     loading: null,
     carUpdate: null
 }
 
 const getAll = createAsyncThunk('carSlice/getAll',
-    async (_, thunkAPI) => {
+    async ({page}, thunkAPI) => {
         try {
-            // console.log('Fetching data');
-            const {data} = await carsService.getAll();
+            const {data} = await carsService.getAll(page);
             return data;
         } catch (e) {
             return thunkAPI.rejectWithValue(e.response.data);
@@ -21,11 +22,11 @@ const getAll = createAsyncThunk('carSlice/getAll',
     })
 
 const create = createAsyncThunk('carSlice/create',
-    async (newCar, thunkAPI) => {
+    async ({car:newCar, page}, thunkAPI) => {
         try {
             const {data} = await carsService.create(newCar);
-            // console.log(newCar);
-            thunkAPI.dispatch(getAll());
+            // console.log(page);
+            thunkAPI.dispatch(getAll({page}));
             return data;
         } catch (e) {
             return thunkAPI.rejectWithValue(e.response.data);
@@ -33,11 +34,11 @@ const create = createAsyncThunk('carSlice/create',
     });
 
 const update = createAsyncThunk('carSlice/update',
-    async ({id, updates}, thunkAPI) => {
+    async ({id, updates, page}, thunkAPI) => {
         try {
-            const {data} = await carsService.update(id, updates);
-            console.log(data);
-            thunkAPI.dispatch(getAll());
+            await carsService.update(id, updates);
+            // console.log(data);
+            thunkAPI.dispatch(getAll({page}));
         } catch (e) {
             return thunkAPI.rejectWithValue(e.response.data);
         }
@@ -48,14 +49,17 @@ const carSlice = createSlice({
     name: 'carSlice',
     initialState,
     reducers: {
-        setCarUpdates: (state, action) => {
+        setCarUpdate: (state, action) => {
             state.carUpdate = action.payload;
         }
     },
     extraReducers: value =>
         value.addCase(getAll.fulfilled, (state, action) => {
             state.loading = false;
-            state.cars = action.payload;
+            const {items, prev, next} = action.payload;
+            state.cars = items;
+            state.prev = prev;
+            state.next = next;
         })
             .addCase(getAll.pending, (state) => {
                 state.loading = true;
@@ -88,12 +92,12 @@ const carSlice = createSlice({
             })
 })
 
-const {reducer: carReducer, actions: {setCarUpdates}} = carSlice;
+const {reducer: carReducer, actions: {setCarUpdate}} = carSlice;
 // .addCase(.fulfilled,(state, action)=>{})getA
 const carActions = {
     getAll,
     create,
-    setCarUpdates,
+    setCarUpdate,
     update
 }
 export {

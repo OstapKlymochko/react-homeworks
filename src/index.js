@@ -1,18 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {App} from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
+import {unstable_HistoryRouter as BrowserRouter} from "react-router-dom";
 
 import './index.css';
-import {setUpStore} from "./redux/store";
+import {setUpStore} from "./redux";
+import {App} from './App';
+import {history} from "./services";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const store = setUpStore();
 root.render(
-  <Provider store={store}>
-      <App />
-  </Provider>
+    <Provider store={store}>
+        <BrowserRouter history={history}>
+            <App/>
+        </BrowserRouter>
+    </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

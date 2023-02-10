@@ -4,7 +4,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {joiResolver} from "@hookform/resolvers/joi";
 
 import {carActions} from "../../redux/slices/carSlice";
-import {carResolver} from "../../resolvers/carResolver/carResolver";
+import {carResolver} from "../../resolvers";
+import {useSearchParams} from "react-router-dom";
 
 const CarForm = () => {
     const {register, handleSubmit, setValue, formState: {errors, isValid}, reset} = useForm({
@@ -13,7 +14,8 @@ const CarForm = () => {
     });
     const {carUpdate} = useSelector(state => state.cars);
     const dispatch = useDispatch();
-
+    const [query] = useSearchParams();
+    const page = query.get('page');
     useEffect(() => {
         if (carUpdate) {
             setValue('brand', carUpdate.brand, {shouldValidate: true});
@@ -23,13 +25,13 @@ const CarForm = () => {
     }, [carUpdate, setValue]);
 
     const submit = async (car) => {
-        dispatch(carActions.create(car));
+        dispatch(carActions.create({car, page}));
         reset();
     };
 
     const update = async (newCar) => {
-        dispatch(carActions.update({id: carUpdate.id, updates: newCar}));
-        dispatch(carActions.setCarUpdates(null));
+        dispatch(carActions.update({id: carUpdate.id, updates: newCar,page}));
+        dispatch(carActions.setCarUpdate(null));
     };
 
     return (
